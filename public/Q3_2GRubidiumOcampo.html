@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Centralized Club Application</title>
+    <style>
 
+    </style>
+
+</head>
+
+<body>
+
+    <form method="post" action="submit" onsubmit="return confirmSubmit();" onreset="return confirmReset();">
+
+        <fieldset>
+            <legend>Personal Information</legend>
+    
+            <label>
+                Student ID:
+                <input type="number" name="student_id" required onblur="validateBlur(this)">
+            </label>
+    
+            <label>
+                Full Name:
+                <input type="text" name="full_name" required onblur="validateBlur(this)">
+            </label>
+    
+            <label>
+                Birthday:
+                <input type="date" name="birthday" required>
+            </label>
+    
+            <label>
+                Email Address:
+                <input type="email" name="email" required onblur="validateBlur(this)">
+            </label>
+        </fieldset>
+    
+        <fieldset>
+            <legend>Organization Details</legend>
+    
+            <label>
+                Mobile Phone:
+                <input type="text" name="mobile" required onblur="validateBlur(this)">
+            </label>
+    
+            <label>
+                Grade Level:
+                <select name="grade_level" required>
+                    <option value="">--Select--</option>
+                    <option value="g7">Grade 7</option>
+                    <option value="g8">Grade 8</option>
+                    <option value="g9">Grade 9</option>
+                    <option value="g10">Grade 10</option>
+                    <option value="g11">Grade 11</option>
+                    <option value="g11">Grade 12</option>
+                </select>
+            </label>
+    
+            <label>
+                Intern / Extern:
+                <input type="radio" name="status" value="intern_val" required> Intern
+                <input type="radio" name="status" value="extern_val" required> Extern
+            </label>
+    
+            <label>
+                Preferred Organization / Club:
+                <select name="club" required>
+                    <option value="">--Select--</option>
+                    <option value="christian_club">ACTS</option>
+                    <option value="astronomy_club">AstroSoc</option>
+                    <option value="badminton_club">Volant</option>
+                    <option value="frisbee_club">Alianti</option>
+                    <option value="volleyball_club">Kislap</option>
+                </select>
+            </label>
+    
+            <label>
+                Why do you want to join?
+                <textarea name="reason" required onblur="validateBlur(this)"></textarea>
+            </label>
+        </fieldset>
+    
+        <div class="buttons">
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </div>
+    
+    </form>
+    
+    <script>
+        function confirmSubmit() {
+            return confirm("Are you sure you want to submit this application?");
+        }
+
+        function confirmReset() {
+            return confirm("Are you sure you want to reset the form?");
+        }
+
+        function validateBlur(element) {
+            if (element.value.trim() === "") {
+                element.classList.add("invalid");
+            } else {
+                element.classList.remove("invalid");
+            }
+        }
+    </script>
+</body>
+</html>
