@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralized Club Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        form {
+            width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px black;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border: 2px solid #007BFF;
+            background-color: #eef6ff;
+            outline: none;
+        }
+
+        .invalid {
+            border: 2px solid red;
+            background-color: #f7c6c7;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        .buttons input, .buttons button {
+            width: 140px;
+            margin: 5px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="signupForm" onsubmit="return saveSignup();" onreset="return confirmReset();">
+        <fieldset>
+            <legend>Personal Information</legend>
+
+            <label>
+                Student ID:
+                <input type="number" name="student_id" required onblur="validateBlur(this)">
+            </label>
+
+            <label>
+                Full Name:
+                <input type="text" name="full_name" required onblur="validateBlur(this)">
+            </label>
+
+            <label>
+                Birthday:
+                <input type="date" name="birthday" required>
+            </label>
+
+            <label>
+                Email Address:
+                <input type="email" name="email" required onblur="validateBlur(this)">
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Organization Details</legend>
+
+            <label>
+                Mobile Phone:
+                <input type="text" name="mobile" required onblur="validateBlur(this)">
+            </label>
+
+            <label>
+                Grade Level:
+                <select name="grade_level" required>
+                    <option value="">--Select--</option>
+                    <option value="Grade 7">Grade 7</option>
+                    <option value="Grade 8">Grade 8</option>
+                    <option value="Grade 9">Grade 9</option>
+                    <option value="Grade 10">Grade 10</option>
+                    <option value="Grade 11">Grade 11</option>
+                    <option value="Grade 12">Grade 12</option>
+                </select>
+            </label>
+
+            <label>
+                Intern / Extern:
+                <input type="radio" name="status" value="Intern" required> Intern
+                <input type="radio" name="status" value="Extern" required> Extern
+            </label>
+
+            <label>
+                Preferred Organization / Club:
+                <select name="club" required>
+                    <option value="">--Select--</option>
+                    <option value="ACTS">ACTS</option>
+                    <option value="AstroSoc">AstroSoc</option>
+                    <option value="Volant">Volant</option>
+                    <option value="Alianti">Alianti</option>
+                    <option value="Kislap">Kislap</option>
+                </select>
+            </label>
+
+            <label>
+                Why do you want to join?
+                <textarea name="reason" required onblur="validateBlur(this)"></textarea>
+            </label>
+        </fieldset>
+
+        <div class="buttons">
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+            <button type="button" onclick="viewSignups()">View Signups</button>
+        </div>
+    </form>
+
+    <script>
+        function confirmReset() {
+            return confirm("Are you sure you want to reset the form?");
+        }
+
+        function validateBlur(element) {
+            if (element.value.trim() === "") {
+                element.classList.add("invalid");
+            } else {
+                element.classList.remove("invalid");
+            }
+        }
+
+        function saveSignup() {
+            if (!confirm("Are you sure you want to submit this application?")) return false;
+
+            const form = document.getElementById("signupForm");
+            const formData = {
+                student_id: form.student_id.value,
+                full_name: form.full_name.value,
+                birthday: form.birthday.value,
+                email: form.email.value,
+                mobile: form.mobile.value,
+                grade_level: form.grade_level.value,
+                status: form.status.value,
+                club: form.club.value,
+                reason: form.reason.value
+            };
+
+            let signups = JSON.parse(localStorage.getItem("signups")) || [];
+
+            signups.push(formData);
+
+            localStorage.setItem("signups", JSON.stringify(signups));
+
+            alert("Signup saved successfully!");
+            form.reset();
+            return false;
+        }
+
+        function viewSignups() {
+            window.location.href = "viewSignUps.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Club Signups</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        select {
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: red;
+            margin: 20px 0;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Club Signups</h1>
+
+    <label for="clubFilter">Filter by Club:</label>
+    <select id="clubFilter" onchange="renderTable()">
+        <option value="All">All</option>
+        <option value="ACTS">ACTS</option>
+        <option value="AstroSoc">AstroSoc</option>
+        <option value="Volant">Volant</option>
+        <option value="Alianti">Alianti</option>
+        <option value="Kislap">Kislap</option>
+    </select>
+
+    <div id="signupContainer"></div>
+    <a class="back-link" href="Q3_2GRubidiumOcampo.html">← Back to Sign-Up Page</a>
+
+    <script>
+        function renderTable() {
+            const container = document.getElementById("signupContainer");
+            const signups = JSON.parse(localStorage.getItem("signups")) || [];
+            const filter = document.getElementById("clubFilter").value;
+
+            container.innerHTML = "";
+
+            if (signups.length === 0) {
+                container.innerHTML = '<p class="message">No sign-ups have been saved yet.</p>';
+                return;
+            }
+
+            const filtered = filter === "All" ? signups : signups.filter(s => s.club === filter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="message">No sign-ups for ${filter} yet.</p>`;
+                return;
+            }
+
+            const table = document.createElement("table");
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            const headers = ["Student ID", "Full Name", "Birthday", "Email", "Mobile", "Grade Level", "Intern|Extern", "Club", "Reason"];
+            headers.forEach(h => {
+                const th = document.createElement("th");
+                th.textContent = h;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement("tbody");
+            filtered.forEach(s => {
+                const row = document.createElement("tr");
+                Object.values(s).forEach(val => {
+                    const td = document.createElement("td");
+                    td.textContent = val;
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+            const total = document.createElement("h2");
+            total.textContent = `Total Sign-ups: ${filtered.length}`;
+            container.appendChild(total);
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>
